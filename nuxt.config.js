@@ -14,10 +14,14 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
+    '@/assets/scss/main.scss',
   ],
+  serverMiddleware: ['~/api/index.js'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
+    { src: "@/plugins/vClickOutside", ssr: false },
+    '@plugins/vuetify',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -25,7 +29,9 @@ export default {
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
+    '@nuxtjs/vuetify',
   ],
+
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
@@ -34,5 +40,6 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
+    vendor: ['vuetify']
   }
 }

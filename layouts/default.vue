@@ -1,20 +1,57 @@
 <template>
   <div>
-    <Nuxt />
+    <v-app>
+      <div class="header">
+        <nuxt-link class="Home grey--text text--lighten-5" to="/"
+          >Home</nuxt-link
+        >
+        <button class="button" @click="tagModal = true">+ New tag</button>
+        <div v-if="tagModal" v-click-outside="closeTagModal" class="modal-tag">
+          <input
+            class="inputTag"
+            type="text"
+            placeholder="new tag"
+            v-model="tag"
+          />
+          <button class="button" @click="createTag">create tag</button>
+        </div>
+        <nuxt-link class="addButton button" to="/addPost">+ New Post</nuxt-link>
+      </div>
+      <Nuxt />
+    </v-app>
   </div>
 </template>
 
+<script>
+import vClickOutside from "v-click-outside";
+import reqTag from "@/mixin/reqTag";
+export default {
+  data: () => ({
+    tagModal: false,
+    tag: "",
+  }),
+  mixins: [reqTag],
+  directives: {
+    clickOutside: vClickOutside.directive,
+  },
+  methods: {
+    closeTagModal() {
+      this.tagModal = false;
+    },
+    async createTag() {
+      await this.createTags();
+      this.tagModal = false;
+      this.tag = "";
+    },
+  },
+};
+</script>
 <style>
+/* @import "~vuetify/src/styles/main.sass"; */
+
 html {
-  font-family:
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
@@ -30,33 +67,51 @@ html {
   box-sizing: border-box;
   margin: 0;
 }
-
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
+.header {
+  height: 80px;
+  background-color: #3a464f;
+  display: flex;
+  align-items: center;
+}
+.Home {
   text-decoration: none;
-  padding: 10px 30px;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
 }
-
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
+.button {
+  cursor: pointer;
   text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
+  display: inline-block;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: cadetblue;
+  color: white;
+  font-size: 18px;
+  border: 1px solid cadetblue;
 }
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
+.addButton {
+  margin-left: auto;
+  margin-right: 20px;
+}
+.modal-tag {
+  position: absolute;
+  width: 200px;
+  height: 150px;
+  background-color: white;
+  border-radius: 10px;
+  top: 60px;
+  left: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 15px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+.inputTag {
+  padding: 5px;
+  border-radius: 5px;
+  margin: 20px 0;
 }
 </style>

@@ -11,8 +11,19 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.12.4",
     "axios": "^0.21.0",
+    "body-parser": "^1.19.0",
     "core-js": "^3.6.5",
-    "nuxt": "^2.14.6"
+    "mongodb": "^3.6.3",
+    "nuxt": "^2.14.6",
+    "v-click-outside": "^3.1.2",
+    "vuetify": "^2.0.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@mdi/font": "^5.8.55",
+    "@nuxtjs/vuetify": "^1.11.2",
+    "fibers": "^5.0.0",
+    "node-sass": "^5.0.0",
+    "sass": "^1.30.0",
+    "sass-loader": "^10.1.0"
+  }
 }

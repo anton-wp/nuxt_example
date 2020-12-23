@@ -1,44 +1,47 @@
 <template>
   <div>
-    <button @click="getData">click</button>
-    <div style="display: flex">
-      <ul v-if="dataStatic">
-        <h1>Static</h1>
-        <li v-for="(item, index) in dataStatic.results" :key="index">
-          {{ item.name }}
-        </li>
-      </ul>
-      <ul v-if="dataDynamic">
-        <h1>Dynamic</h1>
-        <li v-for="(item, index) in dataDynamic" :key="index">
-          {{ item.name }}
-        </li>
-      </ul>
+    <div class="container">
+      <div v-for="item in posts" :key="item._id">
+        <Post :post="item" @deletePost="deletePost" />
+      </div>
     </div>
   </div>
 </template>
 <script>
+import Post from "@/components/post";
 export default {
+  components: {
+    Post,
+  },
   data: () => ({
-    dataDynamic: [],
-    dataStatic: null,
+    posts: [],
   }),
   async asyncData({ $axios }) {
-    const dataStatic = await $axios.$get("https://pokeapi.co/api/v2/pokemon");
-    return { dataStatic };
+    const posts = await $axios.$get("http://localhost:3000/api/tests");
+    return { posts };
   },
   methods: {
-    async getData() {
-      // this.$axios.setHeader("Referrer Policy", "no-referrer");
-      // this.$axios.$get(
-      //   "https://www.virail.com/virail/v7/autocomplete/berli/en_us?ga=true"
-      // );
-      this.$axios.$get("https://pokeapi.co/api/v2/pokemon").then((res) => {
-        this.dataDynamic = [...this.dataDynamic, ...res.results];
-      });
+    async deletePost(id) {
+      try {
+        await this.$axios.$delete(`http://localhost:3000/api/test/${id}`);
+        this.posts = this.posts.filter((post) => post._id !== id);
+      } catch (err) {
+        console.log(err);
+      }
     },
+    // async getData() {
+    //   this.$axios.$get("http://localhost:3000/api/tests").then((res) => {
+    //     this.dataDynamic = [...this.dataDynamic, ...res];
+    //   });
+    // },
   },
 };
 </script>
 <style>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 </style>
